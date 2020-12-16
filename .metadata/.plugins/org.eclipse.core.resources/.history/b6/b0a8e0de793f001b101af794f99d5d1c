@@ -1,0 +1,70 @@
+package Resps;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
+
+public class ProblemaB {
+
+
+	private static int minCost(int len, int[] cortes){
+		int neo = cortes.length + 2;
+		int[] pos = new int[neo];
+		for (int i = 1; i < neo - 1; i++) pos[i] = cortes[i - 1];
+		pos[neo - 1] = len;
+		int[][] resps = new int[neo][neo];
+		int[][] mid = new int[neo][neo];
+		for (int l = 0; l < neo; l++) {
+			for (int i = 0; i < neo - l; i++) {
+				int j = i + l;
+				if (2 > l) {
+					mid[i][j] = i;
+				}else{           
+					resps[i][j] = pos[j] - pos[i];
+					int min = Integer.MAX_VALUE;
+					for (int k = mid[i][j - 1]; k <= mid[i + 1][j]; k++) {
+						int next = resps[i][k] + resps[k][j];
+						if (next < min) {
+							min = next;
+							mid[i][j] = k;
+						}
+					}
+					resps[i][j] += min;
+				}
+			}
+		}
+		return resps[0][neo - 1];
+	}
+
+
+	public static void main(String[] args)
+	{
+		Scanner input = new Scanner(System.in);
+		System.out.println("Entrada: ");
+		List<int[]> lista = new ArrayList<int[]>();
+		List<Integer> lista2 = new ArrayList<Integer>();
+		try{
+			while (true){
+				String first = input.nextLine();
+				if(first.equals("0")){
+					break;
+				}
+				int len = Integer.parseInt(first);
+				String second= input.nextLine();
+				String[] values2 = second.split(" ");
+				int[] vals = new int[values2.length];
+				for(int i = 0; i < values2.length; i++){
+					vals[i] = Integer.parseInt(values2[i]);
+				}
+				lista.add(vals);
+				lista2.add(len);
+			}
+		}catch(Exception e){
+			System.out.println("Input incorrecto. Volver a intentar.");
+		}
+		for(int i = 0; i < lista.size(); i++){
+			System.out.println(minCost( lista2.get(i), lista.get(i)));
+		}
+	}
+}
