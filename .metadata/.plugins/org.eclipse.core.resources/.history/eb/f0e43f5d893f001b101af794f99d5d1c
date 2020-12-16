@@ -7,8 +7,7 @@ import java.util.Scanner;
 public class ProblemaB {
 
 
-	private static int minCost(int len, int[] cortes)
-	{
+	private static int minCost(int len, int[] cortes){
 		int neo = cortes.length + 2;
 		int[] pos = new int[neo];
 		for (int i = 1; i < neo - 1; i++) pos[i] = cortes[i - 1];
